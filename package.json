@@ -60,7 +60,7 @@
             "percentage",
             "progressBar",
             "dots",
-            "bulbs"
+            "stars"
           ],
           "enumDescriptions": [
             "Show percentage (e.g. 🟢 Claude: 85%)",
@@ -227,3 +227,4 @@
   },
   "license": "MIT"
 }
+

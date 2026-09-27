@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Status bar service
  */
 
@@ -15,7 +15,7 @@ export class StatusBarService {
   private showPlanName: boolean;
   private showGeminiPro: boolean;
   private showGeminiFlash: boolean;
-  private displayStyle: 'percentage' | 'progressBar' | 'dots' | 'bulbs';
+  private displayStyle: 'percentage' | 'progressBar' | 'dots' | 'stars';
   private localizationService: LocalizationService;
   /** ???? tooltip ?????????,???? prepend */
   private hasStaleWarning: boolean = false;
@@ -34,7 +34,7 @@ export class StatusBarService {
     showPlanName: boolean = false,
     showGeminiPro: boolean = true,
     showGeminiFlash: boolean = true,
-    displayStyle: 'percentage' | 'progressBar' | 'dots' | 'bulbs' = 'progressBar'
+    displayStyle: 'percentage' | 'progressBar' | 'dots' | 'stars' = 'progressBar'
   ) {
     this.localizationService = LocalizationService.getInstance();
     this.statusBarItem = vscode.window.createStatusBarItem(
@@ -140,13 +140,13 @@ export class StatusBarService {
    */
   private getStatusIndicator(percentage: number): string {
     if (percentage <= 0) {
-      return '?'; // Depleted
+      return '$(stop)'; // Depleted
     } else if (percentage <= this.criticalThreshold) {
-      return '??'; // Critical
+      return '$(error)'; // Critical
     } else if (percentage <= this.warningThreshold) {
-      return '??'; // Warning
+      return '$(warning)'; // Warning
     }
-    return '??'; // Normal
+    return '$(pass-filled)'; // Normal
   }
 
   setWarningThreshold(threshold: number): void {
@@ -173,7 +173,7 @@ export class StatusBarService {
     this.showGeminiFlash = value;
   }
 
-  setDisplayStyle(value: 'percentage' | 'progressBar' | 'dots' | 'bulbs'): void {
+  setDisplayStyle(value: 'percentage' | 'progressBar' | 'dots' | 'stars'): void {
     this.displayStyle = value;
   }
 
@@ -282,18 +282,18 @@ export class StatusBarService {
 
   private getModelEmoji(label: string): string {
     if (label.includes('Claude')) {
-      return '';
+      return '$(hubot)';
     }
     if (label.includes('Gemini') && label.includes('Flash')) {
-      return '';
+      return '$(zap)';
     }
     if (label.includes('Gemini') && label.includes('Pro')) {
-      return '';
+      return '$(sparkle)';
     }
     if (label.includes('GPT')) {
-      return '';
+      return '$(lightbulb)';
     }
-    return '';
+    return '$(server)';
   }
 
   private getShortModelName(label: string): string {
@@ -316,53 +316,26 @@ export class StatusBarService {
   }
 
 
-  private getBulbsBar(percentage: number, count: number = 5): string {
+  private getStarsBar(percentage: number, count: number = 5): string {
     const filled = Math.round((percentage / 100) * count);
-    let result = '';
-    for (let i = 0; i < count; i++) {
-      if (i < filled) {
-        // Colour transitions: high=yellow, mid=orange, low=red
-        if (percentage > 60) {
-          result += String.fromCodePoint(0x1F4A1); // 💡 yellow bulb
-        } else if (percentage > 30) {
-          result += String.fromCodePoint(0x1F7E0); // 🟠 orange circle
-        } else {
-          result += String.fromCodePoint(0x1F534); // 🔴 red circle
-        }
-      } else {
-        result += String.fromCodePoint(0x26AB); // ⚫ empty
-      }
-    }
-    return result;
+    const empty = count - filled;
+    return `${"$(star-full)".repeat(filled)}${"$(star-empty)".repeat(empty)}`;
   }
-  private getProgressBar(percentage: number): string {
-    // ?????? 0-100 ??
-    const p = Math.max(0, Math.min(100, percentage));
 
-    // 8 blocks for finer granularity: �������� / ��������
+  private getProgressBar(percentage: number): string {
+    const p = Math.max(0, Math.min(100, percentage));
     const totalBlocks = 8;
     const filledBlocks = Math.round((p / 100) * totalBlocks);
     const emptyBlocks = totalBlocks - filledBlocks;
-
-    const filledChar = '�';
-    const emptyChar = '�';
-
-    return `${filledChar.repeat(filledBlocks)}${emptyChar.repeat(emptyBlocks)}`;
+    return `[${`=`.repeat(filledBlocks)}${` `.repeat(emptyBlocks)}]`;
   }
 
   private getDotsBar(percentage: number): string {
-    // ?????? 0-100 ??
     const p = Math.max(0, Math.min(100, percentage));
-
-    // 5 dots for cleaner look: ?????
     const totalDots = 5;
     const filledDots = Math.round((p / 100) * totalDots);
     const emptyDots = totalDots - filledDots;
-
-    const filledChar = '?';
-    const emptyChar = '?';
-
-    return `${filledChar.repeat(filledDots)}${emptyChar.repeat(emptyDots)}`;
+    return `${"$(circle-filled)".repeat(filledDots)}${"$(circle-large-outline)".repeat(emptyDots)}`;
   }
 
   private formatPlanName(rawName: string): string {

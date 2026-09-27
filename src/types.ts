@@ -100,7 +100,7 @@ export interface Config {
   showPlanName: boolean;
   showGeminiPro: boolean;
   showGeminiFlash: boolean;
-  displayStyle: 'percentage' | 'progressBar' | 'dots' | 'bulbs';
+  displayStyle: 'percentage' | 'progressBar' | 'dots' | 'stars';
   language: 'auto' | 'en' | 'zh-cn';
   logLevel: 'ERROR' | 'WARNING' | 'INFO' | 'DEBUG';
   proxy: ProxyConfig;  // 代理配置

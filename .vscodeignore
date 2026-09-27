@@ -1,0 +1,73 @@
+# 源代码（只打包编译后的代码）
+src/**
+**/*.ts
+
+# 开发工具配置
+.vscode/**
+.vscode-test/**
+.gitignore
+.yarnrc
+.eslintrc.json
+**/.eslintrc.json
+tsconfig.json
+**/tsconfig.json
+
+# 文档和说明
+vsc-extension-quickstart.md
+DESIGN.md
+*.md
+!README.md
+
+# 图片资源（托管在 GitHub，不需要打包）
+images/**
+*.png
+*.jpg
+*.gif
+!icon.png
+
+# 调试文件
+**/*.map
+
+# 依赖（只保留必需文件）
+node_modules/**
+
+# sql.js (wasm 文件)
+!node_modules/sql.js/
+!node_modules/sql.js/dist/
+!node_modules/sql.js/dist/sql-wasm.js
+!node_modules/sql.js/dist/sql-wasm.wasm
+!node_modules/sql.js/package.json
+
+# https-proxy-agent 及其依赖链
+!node_modules/https-proxy-agent/
+!node_modules/https-proxy-agent/dist/**
+!node_modules/https-proxy-agent/package.json
+
+!node_modules/agent-base/
+!node_modules/agent-base/dist/**
+!node_modules/agent-base/package.json
+
+!node_modules/debug/
+!node_modules/debug/src/**
+!node_modules/debug/package.json
+
+!node_modules/ms/
+!node_modules/ms/index.js
+!node_modules/ms/package.json
+
+# 构建脚本
+build.ps1
+*.sh
+
+# 已打包的扩展
+*.vsix
+
+# 临时文件
+*.log
+.DS_Store
+Thumbs.db
+
+# 其他开发文件
+.claude/**
+.git/**
+.gitattributes

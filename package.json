@@ -1,0 +1,229 @@
+{
+  "name": "google-antigravity-quota-watcher",
+  "displayName": "Google Antigravity Quota Watcher",
+  "description": "Real-time AI model quota monitoring for Google Antigravity — with live status bar indicators, usage forecasting, and Google Sheets history",
+  "version": "1.0.3",
+  "publisher": "ShihabMiah",
+  "icon": "icon.png",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "antigravity-quota-watcher.refreshQuota",
+        "title": "%command.refreshQuota%"
+      },
+      {
+        "command": "antigravity-quota-watcher.detectPort",
+        "title": "%command.detectPort%"
+      },
+      {
+        "command": "antigravity-quota-watcher.googleLogin",
+        "title": "%command.googleLogin%"
+      },
+      {
+        "command": "antigravity-quota-watcher.googleLogout",
+        "title": "%command.googleLogout%"
+      },
+      {
+        "command": "antigravity-quota-watcher.openDashboard",
+        "title": "%command.openDashboard%"
+      }
+    ],
+    "configuration": {
+      "title": "Google Antigravity Quota Watcher",
+      "properties": {
+        "antigravityQuotaWatcher.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "%config.enabled%",
+          "order": 10
+        },
+        "antigravityQuotaWatcher.pollingInterval": {
+          "type": "number",
+          "default": 60,
+          "description": "%config.pollingInterval%",
+          "order": 20
+        },
+        "antigravityQuotaWatcher.displayStyle": {
+          "type": "string",
+          "default": "percentage",
+          "enum": [
+            "percentage",
+            "progressBar",
+            "dots",
+            "bulbs"
+          ],
+          "enumDescriptions": [
+            "Show percentage (e.g. 🟢 Claude: 85%)",
+            "Show progress bar (e.g. 🟢 Claude ███████░)",
+            "Show dots (e.g. 🟢 Claude ●●●●○)",
+            "Show light bulbs — bulbs change from yellow to red as quota drops (e.g. 💡💡💡💡🔴)"
+          ],
+          "description": "%config.displayStyle%",
+          "order": 30
+        },
+        "antigravityQuotaWatcher.apiMethod": {
+          "type": "string",
+          "default": "GOOGLE_API",
+          "enum": [
+            "GET_USER_STATUS",
+            "GOOGLE_API"
+          ],
+          "enumDescriptions": [
+            "%config.apiMethod.getUserStatus%",
+            "%config.apiMethod.googleApi%"
+          ],
+          "description": "%config.apiMethod%",
+          "order": 40
+        },
+        "antigravityQuotaWatcher.warningThreshold": {
+          "type": "number",
+          "default": 50,
+          "description": "%config.warningThreshold%",
+          "order": 50
+        },
+        "antigravityQuotaWatcher.criticalThreshold": {
+          "type": "number",
+          "default": 30,
+          "description": "%config.criticalThreshold%",
+          "order": 60
+        },
+        "antigravityQuotaWatcher.showPromptCredits": {
+          "type": "boolean",
+          "default": false,
+          "description": "%config.showPromptCredits%",
+          "order": 70
+        },
+        "antigravityQuotaWatcher.showPlanName": {
+          "type": "boolean",
+          "default": false,
+          "description": "%config.showPlanName%",
+          "order": 72
+        },
+        "antigravityQuotaWatcher.showGeminiPro": {
+          "type": "boolean",
+          "default": true,
+          "description": "%config.showGeminiPro%",
+          "order": 73
+        },
+        "antigravityQuotaWatcher.showGeminiFlash": {
+          "type": "boolean",
+          "default": true,
+          "description": "%config.showGeminiFlash%",
+          "order": 74
+        },
+        "antigravityQuotaWatcher.forcePowerShell": {
+          "type": "boolean",
+          "default": true,
+          "description": "%config.forcePowerShell%",
+          "order": 75
+        },
+        "antigravityQuotaWatcher.language": {
+          "type": "string",
+          "default": "auto",
+          "enum": [
+            "auto",
+            "en",
+            "zh-cn"
+          ],
+          "enumDescriptions": [
+            "Auto (Based on VS Code language) / 自动 (跟随 VS Code 语言)",
+            "English",
+            "Chinese (Simplified) / 简体中文"
+          ],
+          "description": "%config.language%",
+          "order": 80
+        },
+        "antigravityQuotaWatcher.logLevel": {
+          "type": "string",
+          "default": "DEBUG",
+          "enum": [
+            "ERROR",
+            "WARNING",
+            "INFO",
+            "DEBUG"
+          ],
+          "enumDescriptions": [
+            "ERROR - Only show errors / 仅显示错误",
+            "WARNING - Show warnings and errors / 显示警告和错误",
+            "INFO - Show important information / 显示重要信息",
+            "DEBUG - Show all logs (default) / 显示所有日志（默认）"
+          ],
+          "description": "%config.logLevel%",
+          "order": 90
+        },
+        "antigravityQuotaWatcher.proxyEnabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "%config.proxyEnabled%",
+          "order": 100
+        },
+        "antigravityQuotaWatcher.proxyAutoDetect": {
+          "type": "boolean",
+          "default": true,
+          "description": "%config.proxyAutoDetect%",
+          "order": 101
+        },
+        "antigravityQuotaWatcher.proxyUrl": {
+          "type": "string",
+          "default": "",
+          "description": "%config.proxyUrl%",
+          "order": 102
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "npx vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/sql.js": "^1.4.9",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "esbuild": "^0.28.2",
+    "eslint": "^8.0.0",
+    "typescript": "^5.3.0"
+  },
+  "dependencies": {
+    "chart.js": "^4.5.1",
+    "https": "^1.0.0",
+    "https-proxy-agent": "^7.0.6",
+    "sql.js": "^1.10.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ShihabMiah/google-antigravity-quota-watcher.git"
+  },
+  "keywords": [
+    "antigravity",
+    "google",
+    "quota",
+    "monitor",
+    "ai",
+    "gemini",
+    "claude"
+  ],
+  "author": "Shihab Miah",
+  "homepage": "https://github.com/ShihabMiah/google-antigravity-quota-watcher",
+  "bugs": {
+    "url": "https://github.com/ShihabMiah/google-antigravity-quota-watcher/issues"
+  },
+  "license": "MIT"
+}

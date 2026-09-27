@@ -1,3 +1,4 @@
+import * as vscode from 'vscode';
 /**
  * Antigravity 本地 Token 提取器
  * 从 Antigravity IDE 的本地数据库中提取已存储的 refresh_token
@@ -22,7 +23,7 @@ function getAntigravityDbPath(): string {
     if (platform === 'darwin') {
         return path.join(home, 'Library/Application Support/Antigravity/User/globalStorage/state.vscdb');
     } else if (platform === 'win32') {
-        return path.join(process.env.APPDATA || '', 'Antigravity/User/globalStorage/state.vscdb');
+        return path.join(process.env.APPDATA || path.join(home, 'AppData/Roaming'), 'Antigravity/User/globalStorage/state.vscdb');
     } else {
         return path.join(home, '.config/Antigravity/User/globalStorage/state.vscdb');
     }

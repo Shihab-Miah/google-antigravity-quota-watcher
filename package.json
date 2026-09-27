@@ -178,6 +178,11 @@
           "default": "",
           "description": "%config.proxyUrl%",
           "order": 102
+        },
+        "googleAntigravityQuotaWatcher.antigravityDbPath": {
+          "type": "string",
+          "default": "",
+          "description": "%config.antigravityDbPath.desc%"
         }
       }
     }
@@ -227,4 +232,3 @@
   },
   "license": "MIT"
 }
-

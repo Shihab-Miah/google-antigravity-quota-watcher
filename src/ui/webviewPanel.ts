@@ -421,7 +421,6 @@ export class WebviewPanelService {
                 <span class="info-label">${t('tooltip.credits')}</span>
                 <span id="promptCreditsValue" class="info-value">-</span>
             </div>
-            -->
             <table class="quota-table">
                 <thead>
                     <tr>
@@ -470,8 +469,8 @@ export class WebviewPanelService {
         const errorValue = $('errorValue');
         const quotaSection = $('quotaSection');
         // 暂时隐藏提示词额度
-        // const promptCreditsRow = $('promptCreditsRow');
-        // const promptCreditsValue = $('promptCreditsValue');
+        const promptCreditsRow = $('promptCreditsRow');
+        const promptCreditsValue = $('promptCreditsValue');
         const quotaTableBody = $('quotaTableBody');
 
         // Buttons
@@ -558,13 +557,13 @@ export class WebviewPanelService {
                 quotaSection.classList.remove('hidden');
 
                 // Prompt Credits - 暂时隐藏
-                // if (snapshot.promptCredits) {
-                //     promptCreditsRow.classList.remove('hidden');
-                //     const pc = snapshot.promptCredits;
-                //     promptCreditsValue.textContent = pc.available + ' / ' + pc.monthly + ' (' + pc.remainingPercentage.toFixed(1) + '%)';
-                // } else {
-                //     promptCreditsRow.classList.add('hidden');
-                // }
+                if (snapshot.promptCredits) {
+                    promptCreditsRow.classList.remove('hidden');
+                    const pc = snapshot.promptCredits;
+                    promptCreditsValue.textContent = pc.available + ' / ' + pc.monthly + ' (' + pc.remainingPercentage.toFixed(1) + '%)';
+                } else {
+                    promptCreditsRow.classList.add('hidden');
+                }
 
                 // Models - 按名称排序保持稳定顺序，过滤掉不需要显示的模型
                 const sortedModels = [...snapshot.models]

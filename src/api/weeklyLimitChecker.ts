@@ -287,7 +287,7 @@ export class WeeklyLimitChecker {
         let lastError: any;
         for (let attempt = 1; attempt <= MAX_RETRY_COUNT; attempt++) {
             try {
-                const result = await this.sendChatRequest(accessToken, projectId, modelName);
+                await this.sendChatRequest(accessToken, projectId, modelName);
 
                 // 请求成功，说明配额正常（日志已在 sendChatRequest 中打印）
                 return {

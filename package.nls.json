@@ -24,5 +24,10 @@
   "config.proxyAutoDetect": "Auto-detect system proxy (HTTPS_PROXY, HTTP_PROXY environment variables)",
   "config.proxyUrl": "Proxy URL (e.g., http://127.0.0.1:7890). Leave empty to use auto-detected proxy",
   "config.antigravityDbPath.desc": "Optional absolute path to the Antigravity state.vscdb file if it is not in the default location.",
-  "config.displayStyle.stars": "Show stars rating style (e.g. ?????)"
+  "config.displayStyle.stars": "Show stars rating style (e.g. `$(star-full)$(star-full)$(star-empty)`)",
+  "config.displayStyle.battery": "Show Quantum Battery Cells (e.g. `$(zap) [����?] 80%`)",
+  "config.displayStyle.balls": "Show Coloured Balls (e.g. ????????)",
+  "config.displayStyle.percentage": "Show percentage (e.g. `$(hubot) Claude: 85%`)",
+  "config.displayStyle.progressBar": "Show progress bar (e.g. `$(hubot) Claude [======  ]`)",
+  "config.displayStyle.dots": "Show dots (e.g. `$(hubot) Claude $(circle-filled)$(circle-filled)$(circle-large-outline)`)"
 }

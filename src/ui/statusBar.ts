@@ -15,7 +15,7 @@ export class StatusBarService {
   private showPlanName: boolean;
   private showGeminiPro: boolean;
   private showGeminiFlash: boolean;
-  private displayStyle: 'percentage' | 'progressBar' | 'dots' | 'stars';
+  private displayStyle: 'percentage' | 'progressBar' | 'dots' | 'stars' | 'battery' | 'balls';
   private localizationService: LocalizationService;
   /** ???? tooltip ?????????,???? prepend */
   private hasStaleWarning: boolean = false;
@@ -34,7 +34,7 @@ export class StatusBarService {
     showPlanName: boolean = false,
     showGeminiPro: boolean = true,
     showGeminiFlash: boolean = true,
-    displayStyle: 'percentage' | 'progressBar' | 'dots' | 'stars' = 'progressBar'
+    displayStyle: 'percentage' | 'progressBar' | 'dots' | 'stars' | 'battery' | 'balls' = 'battery'
   ) {
     this.localizationService = LocalizationService.getInstance();
     this.statusBarItem = vscode.window.createStatusBarItem(
@@ -173,7 +173,7 @@ export class StatusBarService {
     this.showGeminiFlash = value;
   }
 
-  setDisplayStyle(value: 'percentage' | 'progressBar' | 'dots' | 'stars'): void {
+  setDisplayStyle(value: 'percentage' | 'progressBar' | 'dots' | 'stars' | 'battery' | 'balls'): void {
     this.displayStyle = value;
   }
 
@@ -315,6 +315,31 @@ export class StatusBarService {
     return label.split(' ')[0];
   }
 
+
+
+  private getBatteryBar(percentage: number): string {
+    const p = Math.max(0, Math.min(100, percentage));
+    const totalBlocks = 5;
+    const filledBlocks = Math.round((p / 100) * totalBlocks);
+    const emptyBlocks = totalBlocks - filledBlocks;
+    return `[${"�".repeat(filledBlocks)}${"?".repeat(emptyBlocks)}] ${p.toFixed(0)}%`;
+  }
+
+  private getBallsBar(percentage: number): string {
+    const p = Math.max(0, Math.min(100, Math.round(percentage)));
+    const totalDots = 5;
+    const filledDots = Math.round((p / 100) * totalDots);
+    const emptyDots = totalDots - filledDots;
+    
+    let colorChar = "??"; // default green
+    if (p <= this.criticalThreshold) {
+      colorChar = "??"; // critical red
+    } else if (p <= this.warningThreshold) {
+      colorChar = "??"; // warning orange
+    }
+
+    return `${colorChar.repeat(filledDots)}${"?".repeat(emptyDots)}`;
+  }
 
   private getStarsBar(percentage: number, count: number = 5): string {
     const filled = Math.round((percentage / 100) * count);
